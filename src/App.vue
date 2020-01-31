@@ -65,40 +65,46 @@ export default {
 
   methods: {
     async showRandomuser() {
-      console.log("APP -- method showRandomuser run.");
+      // console.log("APP -- method showRandomuser run.");
+      this.getRandomuser();
+      this.parsing();
+    },
+
+    async getRandomuser() {
+      // console.log("APP -- method getRandomuser run.");
       try {
         this.wholeRandomuser = await Randomuser.showRandomuser();
-        console.log("APP -- wholeRandomuser = " + this.wholeRandomuser);
-        this.parsing();
       } catch (error) {
         console.error(error);
       }
     },
 
     parsing() {
-      console.log("APP -- method parsing run.");
+      // console.log("APP -- method parsing run.");
       this.dataCard.name =
         this.wholeRandomuser.results[0].name.title +
         ". " +
         this.wholeRandomuser.results[0].name.first +
         " " +
         this.wholeRandomuser.results[0].name.last;
-      console.log("APP -- name = " + this.dataCard.name);
+      // console.log("APP -- name = " + this.dataCard.name);
 
       this.dataCard.mail = this.wholeRandomuser.results[0].email;
       this.dataCard.imgUrl = this.wholeRandomuser.results[0].picture.large;
     },
 
-    initRandomusers() {
-      for (let i = 0; i < 3; i++) {
-        this.showRandomuser();
-        console.log("APP -- method initRandomusers dataCard = " + this.dataCard.name);
-        this.manyRandomusers.push(this.dataCard);
-      }
+    async initRandomusers() {
+      // for (let i = 0; i < 3; i++) {
+      console.log("APP -- initRandomusers.");
+      this.getRandomuser();
+      this.parsing();
+      // }
     }
   },
 
   created() {
+    // beforeMount() {
+    console.log("APP -- created initRandomusers.");
     this.initRandomusers();
   }
 };
@@ -189,14 +195,14 @@ body {
 
 .main {
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   margin: 20px;
   height: calc(100vh - (115px + 50px));
   min-height: 370px;
 
   &-window {
     padding: 10px;
-    margin: 5px;
+    margin: 10px;
     width: 525px;
     height: 100%;
     min-height: 350px;
