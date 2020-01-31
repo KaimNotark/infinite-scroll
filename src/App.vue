@@ -6,7 +6,7 @@
           <img src="/images/infinity-scroll.png" alt class="header-img" />
           <a href="https://kaimnotark.github.io/LP_DEAB/" class="header-link" target="_blank">
             <span class="__capital">landing page</span>
-            (presentation)
+            (open it on desktop)
           </a>
         </div>
       </header>
@@ -28,6 +28,7 @@
       <footer class="footer">
         <a href="https://kaimnotark.github.io/LP_DEAB/" class="footer-link" target="_blank">
           <span class="__capital">landing page</span>
+          (open it on cell phone)
         </a>
       </footer>
     </div>
