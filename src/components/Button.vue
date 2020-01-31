@@ -8,7 +8,7 @@
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
       <defs>
-        <symbol id="icon-download2" viewBox="0 0 32 32">
+        <symbol id="icon-download2" viewBox="-9 -9 50 50">
           <title>Загрузить</title>
           <path
             d="M28 16h-5l-7 7-7-7h-5l-4 8v2h32v-2l-4-8zM0 28h32v2h-32v-2zM18 10v-8h-4v8h-7l9 9 9-9h-7z"
@@ -43,7 +43,7 @@ export default {
   &-container {
     margin: 30px;
   }
-  
+
   &-icon {
     display: inline-block;
     width: 50px;

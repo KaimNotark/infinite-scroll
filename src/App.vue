@@ -22,6 +22,7 @@
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
+          <Card v-for="user in manyRandomusers" :key="user.id" :user="user" />
         </div>
       </main>
 
@@ -52,6 +53,7 @@ export default {
   data() {
     return {
       wholeRandomuser: [],
+      manyRandomusers: [],
 
       dataCard: {
         name: "",
@@ -60,10 +62,6 @@ export default {
       }
     };
   },
-
-  // created() {
-  // this.showApplicants();
-  // },
 
   methods: {
     async showRandomuser() {
@@ -89,7 +87,19 @@ export default {
 
       this.dataCard.mail = this.wholeRandomuser.results[0].email;
       this.dataCard.imgUrl = this.wholeRandomuser.results[0].picture.large;
+    },
+
+    initRandomusers() {
+      for (let i = 0; i < 3; i++) {
+        this.showRandomuser();
+        console.log("APP -- method initRandomusers dataCard = " + this.dataCard.name);
+        this.manyRandomusers.push(this.dataCard);
+      }
     }
+  },
+
+  created() {
+    this.initRandomusers();
   }
 };
 </script>
@@ -179,7 +189,7 @@ body {
 
 .main {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   margin: 20px;
   height: calc(100vh - (115px + 50px));
   min-height: 370px;
