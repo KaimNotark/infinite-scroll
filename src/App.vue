@@ -17,7 +17,7 @@
           <hr class="main-window__devider" />
           <p class="main-window__text">Press button for load data from API</p>
           <Button @download="showRandomuser" />
-          <Card :data-card="dataCard" />
+          <Cards :user="dataCard" />
           <button class="main-window__btn" @click="addCard">Add new card</button>
         </div>
         <div class="main-window">
@@ -44,7 +44,6 @@ import simplebar from "simplebar-vue";
 import "simplebar/dist/simplebar.min.css";
 
 import Button from "./components/Button.vue";
-import Card from "./components/Card.vue";
 import Cards from "./components/Cards.vue";
 
 import { Randomuser } from "./Api";
@@ -55,7 +54,6 @@ export default {
   components: {
     simplebar,
     Button,
-    Card,
     Cards
   },
 
@@ -376,4 +374,8 @@ body {
 .simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
   background-color: $color-yellow-light;
 }
+
+// .simplebar-scrollbar:hover {
+//     background-color: red;
+// }
 </style>
