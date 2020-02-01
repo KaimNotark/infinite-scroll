@@ -11,7 +11,7 @@
       </p>
     </div>
 
-    <img :src="user.imgUrl" alt="фотография" class="card-img" />
+    <img :src="user.imgUrl" alt="фотография" class="card-image" />
   </div>
 </template>
 
@@ -60,7 +60,7 @@ export default {
   &-mail {
   }
 
-  &-img {
+  &-image {
   }
 }
 </style>

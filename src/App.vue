@@ -18,6 +18,7 @@
           <p class="main-window__text">Press button for load data from API</p>
           <Button @download="showRandomuser" />
           <Card :data-card="dataCard" />
+          <button class="main-window__btn" @click="addCard">Add new card</button>
         </div>
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
@@ -141,6 +142,16 @@ export default {
         });
         // console.log("APP -- initRandomusers - initUsers = ") + this.initUsers;
       }
+    },
+
+    async addCard() {
+      await this.getRandomuser();
+      this.parsing();
+      this.initUsers.push({
+        name: this.dataCard.name,
+        mail: this.dataCard.mail,
+        imgUrl: this.dataCard.imgUrl
+      });
     },
 
     scroll() {
@@ -273,6 +284,38 @@ body {
       border: 0;
       height: 2px;
       background: $color-yellow-main;
+    }
+
+    &__btn {
+      width: 100px;
+      height: 40px;
+      margin: 30px;
+      border: solid 2px $color-yellow-light;
+      background: $color-yellow-pale;
+      border-radius: 3px;
+      color: $color-black;
+      font-family: Roboto;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 13px;
+      text-transform: uppercase;
+      transition: background-color 0.1s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+    &__btn:hover {
+      border-color: $color-yellow-dark;
+      background-color: $color-yellow-main;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    &__btn:focus {
+      outline: none;
+      border: 2px solid $color-yellow-dark;
+    }
+    &__btn:active {
+      border: 2px solid $color-yellow-light;
+      background-color: $color-yellow-dark;
+      color: $color-gray;
     }
 
     &__scroll {
