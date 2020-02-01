@@ -22,7 +22,9 @@
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
-          <Card v-for="user in manyRandomusers" :key="user.id" :user="user" />
+          <simplebar data-simplebar-auto-hide="false" class="main-window__scroll">
+            <Cards v-for="user in manyRandomusers" :key="user.id" :user="user" />
+          </simplebar>
         </div>
       </main>
 
@@ -37,8 +39,12 @@
 </template>
 
 <script>
+import simplebar from "simplebar-vue";
+import "simplebar/dist/simplebar.min.css";
+
 import Button from "./components/Button.vue";
 import Card from "./components/Card.vue";
+import Cards from "./components/Cards.vue";
 
 import { Randomuser } from "./Api";
 
@@ -46,14 +52,42 @@ export default {
   name: "app",
 
   components: {
+    simplebar,
     Button,
-    Card
+    Card,
+    Cards
   },
 
   data() {
     return {
       wholeRandomuser: [],
-      manyRandomusers: [],
+      manyRandomusers: [
+        {
+          name: "aaaaaaaaaaaaa",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/men/6.jpg"
+        },
+        {
+          name: "bbbbbbbbbbbbbbb",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/women/36.jpg"
+        },
+        {
+          name: "ccccccccccccccccc",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/women/87.jpg"
+        },
+        {
+          name: "ddddddddddddddddddd",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/men/16.jpg"
+        },
+        {
+          name: "eeeeeeeeeeeeeeeee",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/men/3.jpg"
+        }
+      ],
 
       dataCard: {
         name: "",
@@ -66,7 +100,7 @@ export default {
   methods: {
     async showRandomuser() {
       // console.log("APP -- method showRandomuser run.");
-      this.getRandomuser();
+      await this.getRandomuser();
       this.parsing();
     },
 
@@ -91,22 +125,22 @@ export default {
 
       this.dataCard.mail = this.wholeRandomuser.results[0].email;
       this.dataCard.imgUrl = this.wholeRandomuser.results[0].picture.large;
-    },
-
-    async initRandomusers() {
-      // for (let i = 0; i < 3; i++) {
-      console.log("APP -- initRandomusers.");
-      this.getRandomuser();
-      this.parsing();
-      // }
     }
-  },
 
-  created() {
-    // beforeMount() {
-    console.log("APP -- created initRandomusers.");
-    this.initRandomusers();
+    // async initRandomusers() {
+    // for (let i = 0; i < 3; i++) {
+    // console.log("APP -- initRandomusers.");
+    // this.getRandomuser();
+    // this.parsing();
+    // }
+    // }
   }
+
+  // created() {
+  // beforeMount() {
+  // console.log("APP -- created initRandomusers.");
+  // this.initRandomusers();
+  // }
 };
 </script>
 
@@ -203,7 +237,7 @@ body {
   &-window {
     padding: 10px;
     margin: 10px;
-    width: 525px;
+    width: 565px;
     height: 100%;
     min-height: 350px;
     border: 2px solid $color-yellow-main;
@@ -218,6 +252,11 @@ body {
       border: 0;
       height: 2px;
       background: $color-yellow-main;
+    }
+
+    &__scroll {
+      height: calc(100vh - (115px + 130px));
+      overflow-x: hidden;
     }
   }
 }
@@ -269,4 +308,9 @@ body {
 .__capital {
   text-transform: uppercase;
 }
+
+.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+  background-color: $color-yellow-light;
+}
+
 </style>
