@@ -27,8 +27,8 @@
             class="main-window__scroller"
             :items="initUsers"
             :item-size="185"
-            key-field="id"
           >
+            <!-- key-field="id" -->
             <!-- content-tag="main" -->
             <!-- :item-height="175" -->
             <!-- key-field="name" -->
