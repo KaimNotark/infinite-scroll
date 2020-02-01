@@ -23,7 +23,7 @@
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
           <simplebar data-simplebar-auto-hide="false" class="main-window__scroll">
-            <Cards v-for="user in manyRandomusers" :key="user.id" :user="user" />
+            <Cards v-for="user in initUsers" :key="user.id" :user="user" />
           </simplebar>
         </div>
       </main>
@@ -61,6 +61,7 @@ export default {
   data() {
     return {
       wholeRandomuser: [],
+      initUsers: [],
       manyRandomusers: [
         {
           name: "aaaaaaaaaaaaa",
@@ -125,22 +126,42 @@ export default {
 
       this.dataCard.mail = this.wholeRandomuser.results[0].email;
       this.dataCard.imgUrl = this.wholeRandomuser.results[0].picture.large;
+    },
+
+    async initRandomusers(initUsers) {
+      for (let i = 0; i < 5; i++) {
+        // console.log("APP -- initRandomusers.");
+        await this.getRandomuser();
+        this.parsing();
+        // console.log("APP -- initRandomusers - name = " + this.dataCard.name);
+        initUsers.push({
+          name: this.dataCard.name,
+          mail: this.dataCard.mail,
+          imgUrl: this.dataCard.imgUrl
+        });
+        // console.log("APP -- initRandomusers - initUsers = ") + this.initUsers;
+      }
+    },
+
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight;
+        console.log("bottomOfWindow = " + bottomOfWindow);
+      };
     }
+  },
 
-    // async initRandomusers() {
-    // for (let i = 0; i < 3; i++) {
-    // console.log("APP -- initRandomusers.");
-    // this.getRandomuser();
-    // this.parsing();
-    // }
-    // }
+  created() {
+    // beforeMount() {
+    // console.log("APP -- created initRandomusers.");
+    this.initRandomusers(this.initUsers);
+  },
+
+  mounted() {
+    // this.scroll();
   }
-
-  // created() {
-  // beforeMount() {
-  // console.log("APP -- created initRandomusers.");
-  // this.initRandomusers();
-  // }
 };
 </script>
 
@@ -312,5 +333,4 @@ body {
 .simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
   background-color: $color-yellow-light;
 }
-
 </style>
