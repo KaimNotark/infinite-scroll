@@ -23,9 +23,17 @@
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
-          <simplebar data-simplebar-auto-hide="false" class="main-window__scroll">
+          <RecycleScroller
+            class="main-window__scroller"
+            :items="initUsers"
+            :item-size="185"
+            key-field="id"
+          >
+            <!-- content-tag="main" -->
+            <!-- :item-height="175" -->
+            <!-- key-field="name" -->
             <Cards v-for="user in initUsers" :key="user.id" :user="user" />
-          </simplebar>
+          </RecycleScroller>
         </div>
       </main>
 
@@ -40,9 +48,6 @@
 </template>
 
 <script>
-import simplebar from "simplebar-vue";
-import "simplebar/dist/simplebar.min.css";
-
 import Button from "./components/Button.vue";
 import Cards from "./components/Cards.vue";
 
@@ -52,7 +57,6 @@ export default {
   name: "app",
 
   components: {
-    simplebar,
     Button,
     Cards
   },
@@ -267,7 +271,7 @@ body {
   &-window {
     padding: 10px;
     margin: 10px;
-    width: 565px;
+    width: 580px;
     height: 100%;
     min-height: 350px;
     border: 2px solid $color-yellow-main;
@@ -282,6 +286,10 @@ body {
       border: 0;
       height: 2px;
       background: $color-yellow-main;
+    }
+
+    &__scroller {
+      height: calc(100vh - (115px + 130px));
     }
 
     &__btn {
@@ -314,11 +322,6 @@ body {
       border: 2px solid $color-yellow-light;
       background-color: $color-yellow-dark;
       color: $color-gray;
-    }
-
-    &__scroll {
-      height: calc(100vh - (115px + 130px));
-      overflow-x: hidden;
     }
   }
 }
@@ -371,11 +374,7 @@ body {
   text-transform: uppercase;
 }
 
-.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
-  background-color: $color-yellow-light;
+.vue-recycle-scroller__item-view {
+  transform: translateY(0px) !important ;
 }
-
-// .simplebar-scrollbar:hover {
-//     background-color: red;
-// }
 </style>
