@@ -8,11 +8,11 @@ class RandomuserApi {
   }
 
   async showRandomuser() {
-    console.log("APIjs -- Function SHOW Randomuser run.");
+    // console.log("APIjs -- Function SHOW Randomuser run.");
 
     try {
       const { data } = await axios.get(this.baseUrl);
-      console.log("APIjs -- Randomuser = ", data);
+      // console.log("APIjs -- Randomuser = ", data);
       return data;
     } catch (error) {
       console.log(error);

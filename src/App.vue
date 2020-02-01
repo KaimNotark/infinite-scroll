@@ -6,7 +6,7 @@
           <img src="/images/infinity-scroll.png" alt class="header-img" />
           <a href="https://kaimnotark.github.io/LP_DEAB/" class="header-link" target="_blank">
             <span class="__capital">landing page</span>
-            (presentation)
+            (open it on desktop)
           </a>
         </div>
       </header>
@@ -17,17 +17,22 @@
           <hr class="main-window__devider" />
           <p class="main-window__text">Press button for load data from API</p>
           <Button @download="showRandomuser" />
-          <Card :data-card="dataCard" />
+          <Cards :user="dataCard" />
+          <button class="main-window__btn" @click="addCard">Add new card</button>
         </div>
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
+          <simplebar data-simplebar-auto-hide="false" class="main-window__scroll">
+            <Cards v-for="user in initUsers" :key="user.id" :user="user" />
+          </simplebar>
         </div>
       </main>
 
       <footer class="footer">
         <a href="https://kaimnotark.github.io/LP_DEAB/" class="footer-link" target="_blank">
           <span class="__capital">landing page</span>
+          (open it on cell phone)
         </a>
       </footer>
     </div>
@@ -35,8 +40,11 @@
 </template>
 
 <script>
+import simplebar from "simplebar-vue";
+import "simplebar/dist/simplebar.min.css";
+
 import Button from "./components/Button.vue";
-import Card from "./components/Card.vue";
+import Cards from "./components/Cards.vue";
 
 import { Randomuser } from "./Api";
 
@@ -44,13 +52,42 @@ export default {
   name: "app",
 
   components: {
+    simplebar,
     Button,
-    Card
+    Cards
   },
 
   data() {
     return {
       wholeRandomuser: [],
+      initUsers: [],
+      manyRandomusers: [
+        {
+          name: "aaaaaaaaaaaaa",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/men/6.jpg"
+        },
+        {
+          name: "bbbbbbbbbbbbbbb",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/women/36.jpg"
+        },
+        {
+          name: "ccccccccccccccccc",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/women/87.jpg"
+        },
+        {
+          name: "ddddddddddddddddddd",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/men/16.jpg"
+        },
+        {
+          name: "eeeeeeeeeeeeeeeee",
+          mail: "dasldkfjalsjf@lkjdf.ru",
+          imgUrl: "https://randomuser.me/api/portraits/men/3.jpg"
+        }
+      ],
 
       dataCard: {
         name: "",
@@ -60,35 +97,79 @@ export default {
     };
   },
 
-  // created() {
-  // this.showApplicants();
-  // },
-
   methods: {
     async showRandomuser() {
-      console.log("APP -- method showRandomuser run.");
+      // console.log("APP -- method showRandomuser run.");
+      await this.getRandomuser();
+      this.parsing();
+    },
+
+    async getRandomuser() {
+      // console.log("APP -- method getRandomuser run.");
       try {
         this.wholeRandomuser = await Randomuser.showRandomuser();
-        console.log("APP -- wholeRandomuser = " + this.wholeRandomuser);
-        this.parsing();
       } catch (error) {
         console.error(error);
       }
     },
 
     parsing() {
-      console.log("APP -- method parsing run.");
+      // console.log("APP -- method parsing run.");
       this.dataCard.name =
         this.wholeRandomuser.results[0].name.title +
         ". " +
         this.wholeRandomuser.results[0].name.first +
         " " +
         this.wholeRandomuser.results[0].name.last;
-      console.log("APP -- name = " + this.dataCard.name);
+      // console.log("APP -- name = " + this.dataCard.name);
 
       this.dataCard.mail = this.wholeRandomuser.results[0].email;
       this.dataCard.imgUrl = this.wholeRandomuser.results[0].picture.large;
+    },
+
+    async initRandomusers(initUsers) {
+      for (let i = 0; i < 5; i++) {
+        // console.log("APP -- initRandomusers.");
+        await this.getRandomuser();
+        this.parsing();
+        // console.log("APP -- initRandomusers - name = " + this.dataCard.name);
+        initUsers.push({
+          name: this.dataCard.name,
+          mail: this.dataCard.mail,
+          imgUrl: this.dataCard.imgUrl
+        });
+        // console.log("APP -- initRandomusers - initUsers = ") + this.initUsers;
+      }
+    },
+
+    async addCard() {
+      await this.getRandomuser();
+      this.parsing();
+      this.initUsers.push({
+        name: this.dataCard.name,
+        mail: this.dataCard.mail,
+        imgUrl: this.dataCard.imgUrl
+      });
+    },
+
+    scroll() {
+      window.onscroll = () => {
+        let bottomOfWindow =
+          document.documentElement.scrollTop + window.innerHeight ===
+          document.documentElement.offsetHeight;
+        console.log("bottomOfWindow = " + bottomOfWindow);
+      };
     }
+  },
+
+  created() {
+    // beforeMount() {
+    // console.log("APP -- created initRandomusers.");
+    this.initRandomusers(this.initUsers);
+  },
+
+  mounted() {
+    // this.scroll();
   }
 };
 </script>
@@ -185,8 +266,8 @@ body {
 
   &-window {
     padding: 10px;
-    margin: 5px;
-    width: 525px;
+    margin: 10px;
+    width: 565px;
     height: 100%;
     min-height: 350px;
     border: 2px solid $color-yellow-main;
@@ -201,6 +282,43 @@ body {
       border: 0;
       height: 2px;
       background: $color-yellow-main;
+    }
+
+    &__btn {
+      width: 100px;
+      height: 40px;
+      margin: 30px;
+      border: solid 2px $color-yellow-light;
+      background: $color-yellow-pale;
+      border-radius: 3px;
+      color: $color-black;
+      font-family: Roboto;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 13px;
+      text-transform: uppercase;
+      transition: background-color 0.1s ease, border-color 0.3s ease;
+      cursor: pointer;
+    }
+    &__btn:hover {
+      border-color: $color-yellow-dark;
+      background-color: $color-yellow-main;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    &__btn:focus {
+      outline: none;
+      border: 2px solid $color-yellow-dark;
+    }
+    &__btn:active {
+      border: 2px solid $color-yellow-light;
+      background-color: $color-yellow-dark;
+      color: $color-gray;
+    }
+
+    &__scroll {
+      height: calc(100vh - (115px + 130px));
+      overflow-x: hidden;
     }
   }
 }
@@ -252,4 +370,12 @@ body {
 .__capital {
   text-transform: uppercase;
 }
+
+.simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
+  background-color: $color-yellow-light;
+}
+
+// .simplebar-scrollbar:hover {
+//     background-color: red;
+// }
 </style>

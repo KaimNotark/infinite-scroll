@@ -3,24 +3,24 @@
     <div class="card-text">
       <p class="card-name">
         <span class="card-name__title">Name:</span>
-        {{ dataCard.name }}
+        {{ user.name }}
       </p>
       <p class="card-mail">
         <span class="card-name__title">E-mail:</span>
-        {{ dataCard.mail }}
+        {{ user.mail }}
       </p>
     </div>
 
-    <img :src="dataCard.imgUrl" alt="фотография" class="card-img" />
+    <img :src="user.imgUrl" alt="фотография" class="card-image" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "Card",
+  name: "Cards",
 
   props: {
-    dataCard: {
+    user: {
       type: Object,
       required: true
     }
@@ -38,6 +38,8 @@ export default {
     width: 500px;
     height: 175px;
     padding: 20px;
+    margin-top: 10px;
+    margin-left: 20px;
     border: 2px solid $color-yellow-light;
     border-radius: 5px;
     background-color: $color-yellow-pale;
@@ -58,7 +60,7 @@ export default {
   &-mail {
   }
 
-  &-img {
+  &-image {
   }
 }
 </style>
