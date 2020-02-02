@@ -137,7 +137,7 @@ export default {
     },
 
     async initRandomusers(initUsers) {
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 10; i++) {
         // console.log("APP -- initRandomusers.");
         await this.getRandomuser();
         this.parsing();
