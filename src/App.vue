@@ -19,13 +19,16 @@
           <Button @download="showRandomuser" />
           <Cards :user="dataCard" />
           <button class="main-window__btn" @click="addCard">Add new card</button>
+          <p class="main-window__text">scrollPosition {{ scrollPosition }}</p>
+          <p class="main-window__text">clientHeightValue {{ clientHeightValue }}</p>
+          <p class="main-window__text">scrollHeightValue {{ scrollHeightValue }}</p>
         </div>
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
-          <simplebar data-simplebar-auto-hide="false" class="main-window__scroll">
+          <div class="main-window__scroll" @scroll="onScroll">
             <Cards v-for="user in initUsers" :key="user.id" :user="user" />
-          </simplebar>
+          </div>
         </div>
       </main>
 
@@ -40,8 +43,8 @@
 </template>
 
 <script>
-import simplebar from "simplebar-vue";
-import "simplebar/dist/simplebar.min.css";
+// import simplebar from "simplebar-vue";
+// import "simplebar/dist/simplebar.min.css";
 
 import Button from "./components/Button.vue";
 import Cards from "./components/Cards.vue";
@@ -52,13 +55,17 @@ export default {
   name: "app",
 
   components: {
-    simplebar,
+    // simplebar,
     Button,
     Cards
   },
 
   data() {
     return {
+      scrollPosition: 0,
+      clientHeightValue: 0,
+      scrollHeightValue: 0,
+
       wholeRandomuser: [],
       initUsers: [],
       manyRandomusers: [
@@ -152,14 +159,23 @@ export default {
       });
     },
 
-    scroll() {
-      window.onscroll = () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
-        console.log("bottomOfWindow = " + bottomOfWindow);
-      };
+    onScroll() {
+      var container = event.target;
+      this.scrollPosition = container.scrollTop;
+      this.clientHeightValue = container.clientHeight;
+      this.scrollHeightValue = container.scrollHeight;
+
+      // console.log("APP -- method onScroll run." + this.scrollPosition);
     }
+
+    // scroll() {
+    //   window.onscroll = () => {
+    //     let bottomOfWindow =
+    //       document.documentElement.scrollTop + window.innerHeight ===
+    //       document.documentElement.offsetHeight;
+    //     console.log("bottomOfWindow = " + bottomOfWindow);
+    //   };
+    // }
   },
 
   created() {
@@ -267,7 +283,7 @@ body {
   &-window {
     padding: 10px;
     margin: 10px;
-    width: 565px;
+    width: 575px;
     height: 100%;
     min-height: 350px;
     border: 2px solid $color-yellow-main;
@@ -318,6 +334,7 @@ body {
 
     &__scroll {
       height: calc(100vh - (115px + 130px));
+      overflow: auto;
       overflow-x: hidden;
     }
   }
