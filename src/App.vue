@@ -152,20 +152,26 @@ export default {
       });
     },
 
-    scroll() {
-      window.onscroll = () => {
-        let bottomOfWindow =
-          document.documentElement.scrollTop + window.innerHeight ===
-          document.documentElement.offsetHeight;
-        console.log("bottomOfWindow = " + bottomOfWindow);
-      };
-    }
+    // onScroll() {
+    //   console.log("APP -- method onScroll run.");
+    // }
+
+    // scroll() {
+    //   window.onscroll = () => {
+    //     let bottomOfWindow =
+    //       document.documentElement.scrollTop + window.innerHeight ===
+    //       document.documentElement.offsetHeight;
+    //     console.log("bottomOfWindow = " + bottomOfWindow);
+    //   };
+    // }
   },
 
   created() {
     // beforeMount() {
     // console.log("APP -- created initRandomusers.");
     this.initRandomusers(this.initUsers);
+    // const simpleBar = new SimpleBar(document.getElementById("myElement"));
+    // simpleBar.getScrollElement().addEventListener("scroll", this.onScroll());
   },
 
   mounted() {
