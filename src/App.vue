@@ -19,15 +19,17 @@
           <Button @download="showRandomuser" />
           <Cards :user="dataCard" />
           <button class="main-window__btn" @click="addCard">Add new card</button>
-          <p class="main-window__text">scrollPosition {{ scrollPosition }}</p>
-          <p class="main-window__text">clientHeightValue {{ clientHeightValue }}</p>
-          <p class="main-window__text">scrollHeightValue {{ scrollHeightValue }}</p>
+          <p class="main-window__text">scrollPositionValue = {{ scrollPositionValue }}</p>
+          <p class="main-window__text">clientHeightValue = {{ clientHeightValue }}</p>
+          <p class="main-window__text">scrollHeightValue = {{ scrollHeightValue }}</p>
         </div>
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
-          <div class="main-window__scroll" @scroll="onScroll">
+          <div class="main-window__scroller" @scroll="onScroll">
+            <!-- <simplebar data-simplebar-auto-hide="false" class="main-window__scroll"> -->
             <Cards v-for="user in initUsers" :key="user.id" :user="user" />
+            <!-- </simplebar> -->
           </div>
         </div>
       </main>
@@ -62,7 +64,7 @@ export default {
 
   data() {
     return {
-      scrollPosition: 0,
+      scrollPositionValue: 0,
       clientHeightValue: 0,
       scrollHeightValue: 0,
 
@@ -161,9 +163,17 @@ export default {
 
     onScroll() {
       var container = event.target;
-      this.scrollPosition = container.scrollTop;
+      this.scrollPositionValue = container.scrollTop;
       this.clientHeightValue = container.clientHeight;
       this.scrollHeightValue = container.scrollHeight;
+
+      if (
+        this.scrollPositionValue + this.clientHeightValue >=
+        this.scrollHeightValue
+      ) {
+        this.addCard();
+        // console.log("APP -- method onScroll run. - if=true");
+      }
 
       // console.log("APP -- method onScroll run." + this.scrollPosition);
     }
@@ -332,7 +342,12 @@ body {
       color: $color-gray;
     }
 
-    &__scroll {
+    // &__scroll {
+    //   height: calc(100vh - (115px + 130px));
+    //   overflow: auto;
+    //   overflow-x: hidden;
+    // }
+    &__scroller {
       height: calc(100vh - (115px + 130px));
       overflow: auto;
       overflow-x: hidden;
