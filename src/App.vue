@@ -15,21 +15,30 @@
         <div class="main-window">
           <h2 class="main-window__title">window for test</h2>
           <hr class="main-window__devider" />
-          <p class="main-window__text">Press button for load data from API</p>
-          <Button @download="showRandomuser" />
-          <Cards :user="dataCard" />
-          <button class="main-window__btn" @click="addCard">Add new card</button>
-          <p class="main-window__text">scrollPositionValue = {{ scrollPositionValue }}</p>
-          <p class="main-window__text">clientHeightValue = {{ clientHeightValue }}</p>
-          <p class="main-window__text">scrollHeightValue = {{ scrollHeightValue }}</p>
+          <simplebar data-simplebar-auto-hide="false" class="main-window__scroll-simplebar">
+            <p class="main-window__text">Press button for load data from API</p>
+            <Button @download="showRandomuser" />
+            <Card :user="dataCard" />
+            <button class="main-window__btn" @click="addCard">Add new card</button>
+            <p class="main-window__text">
+              <span class="__yellow">scrollPositionValue =</span>
+              {{ scrollPositionValue }}
+            </p>
+            <p class="main-window__text">
+              <span class="__yellow">clientHeightValue =</span>
+              {{ clientHeightValue }}
+            </p>
+            <p class="main-window__text">
+              <span class="__yellow">scrollHeightValue =</span>
+              {{ scrollHeightValue }}
+            </p>
+          </simplebar>
         </div>
         <div class="main-window">
           <h2 class="main-window__title">window for infinity scroll</h2>
           <hr class="main-window__devider" />
-          <div class="main-window__scroller" @scroll="onScroll">
-            <!-- <simplebar data-simplebar-auto-hide="false" class="main-window__scroll"> -->
-            <Cards v-for="user in initUsers" :key="user.id" :user="user" />
-            <!-- </simplebar> -->
+          <div class="main-window__scroll-native" @scroll="onScroll">
+            <Card v-for="user in initUsers" :key="user.id" :user="user" />
           </div>
         </div>
       </main>
@@ -45,11 +54,11 @@
 </template>
 
 <script>
-// import simplebar from "simplebar-vue";
-// import "simplebar/dist/simplebar.min.css";
+import simplebar from "simplebar-vue";
+import "simplebar/dist/simplebar.min.css";
 
 import Button from "./components/Button.vue";
-import Cards from "./components/Cards.vue";
+import Card from "./components/Card.vue";
 
 import { Randomuser } from "./Api";
 
@@ -57,9 +66,9 @@ export default {
   name: "app",
 
   components: {
-    // simplebar,
+    simplebar,
     Button,
-    Cards
+    Card
   },
 
   data() {
@@ -70,33 +79,6 @@ export default {
 
       wholeRandomuser: [],
       initUsers: [],
-      manyRandomusers: [
-        {
-          name: "aaaaaaaaaaaaa",
-          mail: "dasldkfjalsjf@lkjdf.ru",
-          imgUrl: "https://randomuser.me/api/portraits/men/6.jpg"
-        },
-        {
-          name: "bbbbbbbbbbbbbbb",
-          mail: "dasldkfjalsjf@lkjdf.ru",
-          imgUrl: "https://randomuser.me/api/portraits/women/36.jpg"
-        },
-        {
-          name: "ccccccccccccccccc",
-          mail: "dasldkfjalsjf@lkjdf.ru",
-          imgUrl: "https://randomuser.me/api/portraits/women/87.jpg"
-        },
-        {
-          name: "ddddddddddddddddddd",
-          mail: "dasldkfjalsjf@lkjdf.ru",
-          imgUrl: "https://randomuser.me/api/portraits/men/16.jpg"
-        },
-        {
-          name: "eeeeeeeeeeeeeeeee",
-          mail: "dasldkfjalsjf@lkjdf.ru",
-          imgUrl: "https://randomuser.me/api/portraits/men/3.jpg"
-        }
-      ],
 
       dataCard: {
         name: "",
@@ -177,25 +159,11 @@ export default {
 
       // console.log("APP -- method onScroll run." + this.scrollPosition);
     }
-
-    // scroll() {
-    //   window.onscroll = () => {
-    //     let bottomOfWindow =
-    //       document.documentElement.scrollTop + window.innerHeight ===
-    //       document.documentElement.offsetHeight;
-    //     console.log("bottomOfWindow = " + bottomOfWindow);
-    //   };
-    // }
   },
 
   created() {
-    // beforeMount() {
     // console.log("APP -- created initRandomusers.");
     this.initRandomusers(this.initUsers);
-  },
-
-  mounted() {
-    // this.scroll();
   }
 };
 </script>
@@ -205,6 +173,15 @@ export default {
 
 @import "./stylesheets/variables.scss";
 @import "./stylesheets/resets.scss";
+
+%link-hover {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  width: 46%;
+  height: 2px;
+  background-color: $color-yellow-light;
+}
 
 $font-family-primary: "Roboto", "Verdana", "Arial", sans-serif;
 
@@ -222,9 +199,6 @@ html {
 body {
   font-family: $font-family-primary;
   box-sizing: border-box;
-}
-
-.wrapper {
 }
 
 #app {
@@ -258,23 +232,13 @@ body {
   }
 
   &-link:hover::before {
-    content: "";
-    position: absolute;
+    @extend %link-hover;
     right: 0;
-    bottom: -10px;
-    width: 46%;
-    height: 2px;
-    background-color: $color-yellow-light;
   }
 
   &-link:hover::after {
-    content: "";
-    position: absolute;
+    @extend %link-hover;
     left: 0;
-    bottom: -10px;
-    width: 46%;
-    height: 2px;
-    background-color: $color-yellow-light;
   }
 
   &-link:hover {
@@ -342,12 +306,13 @@ body {
       color: $color-gray;
     }
 
-    // &__scroll {
-    //   height: calc(100vh - (115px + 130px));
-    //   overflow: auto;
-    //   overflow-x: hidden;
-    // }
-    &__scroller {
+    &__scroll-simplebar {
+      height: 400px;
+      overflow: auto;
+      overflow-x: hidden;
+    }
+
+    &__scroll-native {
       height: calc(100vh - (115px + 130px));
       overflow: auto;
       overflow-x: hidden;
@@ -374,23 +339,13 @@ body {
   }
 
   &-link:hover::before {
-    content: "";
-    position: absolute;
+    @extend %link-hover;
     right: 0;
-    bottom: -10px;
-    width: 46%;
-    height: 2px;
-    background-color: $color-yellow-light;
   }
 
   &-link:hover::after {
-    content: "";
-    position: absolute;
+    @extend %link-hover;
     left: 0;
-    bottom: -10px;
-    width: 46%;
-    height: 2px;
-    background-color: $color-yellow-light;
   }
 
   &-link:hover {
@@ -403,11 +358,11 @@ body {
   text-transform: uppercase;
 }
 
+.__yellow {
+  color: $color-yellow-dark;
+}
+
 .simplebar-track.simplebar-vertical .simplebar-scrollbar:before {
   background-color: $color-yellow-light;
 }
-
-// .simplebar-scrollbar:hover {
-//     background-color: red;
-// }
 </style>

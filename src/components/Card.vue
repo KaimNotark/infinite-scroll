@@ -11,13 +11,13 @@
       </p>
     </div>
 
-    <img :src="user.imgUrl" alt="фотография" class="card-image" />
+    <img :src="user.imgUrl" alt="avatar" class="card-image" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "Cards",
+  name: "Card",
 
   props: {
     user: {
@@ -55,12 +55,6 @@ export default {
       font-weight: bold;
       letter-spacing: 2px;
     }
-  }
-
-  &-mail {
-  }
-
-  &-image {
   }
 }
 </style>
