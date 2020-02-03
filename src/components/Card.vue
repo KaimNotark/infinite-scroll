@@ -11,15 +11,24 @@
       </p>
     </div>
 
-    <img :src="user.imgUrl" alt="фотография" class="card-image" />
+    <img :src="user.imgUrl" alt="avatar" class="card-image" />
   </div>
 </template>
 
 <script>
+/**
+ * @file Component that creates a card for displaying user data.
+ */
 export default {
-  name: "Cards",
+  name: "Card",
 
   props: {
+    /**
+     * Data received for filling in the user card 
+     * from the parent component App.vue
+     * 
+     * @type {{name: String, mail: String, imgUrl: String}}
+     */
     user: {
       type: Object,
       required: true
@@ -55,12 +64,6 @@ export default {
       font-weight: bold;
       letter-spacing: 2px;
     }
-  }
-
-  &-mail {
-  }
-
-  &-image {
   }
 }
 </style>

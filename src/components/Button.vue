@@ -9,7 +9,7 @@
     >
       <defs>
         <symbol id="icon-download2" viewBox="-9 -9 50 50">
-          <title>Загрузить</title>
+          <title>Download</title>
           <path
             d="M28 16h-5l-7 7-7-7h-5l-4 8v2h32v-2l-4-8zM0 28h32v2h-32v-2zM18 10v-8h-4v8h-7l9 9 9-9h-7z"
           />
@@ -24,12 +24,22 @@
 </template>
 
 <script>
+/**
+ * @file "Button.vue" download button based on svg icons.
+ */
 export default {
   name: "Button",
 
   methods: {
+    /**
+     * When a button "download" is clicked, 
+     * it sends the "button is pressed" event 
+     * to the parent component App.vue.
+     * 
+     * @property {Function} download
+     */
     download() {
-      console.log("BUTTON -- button DOWNLOAD was pressed.");
+      // console.log("BUTTON -- button DOWNLOAD was pressed.");
       this.$emit("download");
     }
   }
