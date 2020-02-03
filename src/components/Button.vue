@@ -24,12 +24,22 @@
 </template>
 
 <script>
+/**
+ * @file "Button.vue" download button based on svg icons.
+ */
 export default {
   name: "Button",
 
   methods: {
+    /**
+     * When a button "download" is clicked, 
+     * it sends the "button is pressed" event 
+     * to the parent component App.vue.
+     * 
+     * @property {Function} download
+     */
     download() {
-      console.log("BUTTON -- button DOWNLOAD was pressed.");
+      // console.log("BUTTON -- button DOWNLOAD was pressed.");
       this.$emit("download");
     }
   }

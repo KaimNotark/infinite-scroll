@@ -16,10 +16,19 @@
 </template>
 
 <script>
+/**
+ * @file Component that creates a card for displaying user data.
+ */
 export default {
   name: "Card",
 
   props: {
+    /**
+     * Data received for filling in the user card 
+     * from the parent component App.vue
+     * 
+     * @type {{name: String, mail: String, imgUrl: String}}
+     */
     user: {
       type: Object,
       required: true

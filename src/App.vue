@@ -54,6 +54,12 @@
 </template>
 
 <script>
+/**
+ * @file The root component from which all other components will be rendered.
+ */
+/**
+ * "simplebar" - module used for customizing the scrollbar.
+ */
 import simplebar from "simplebar-vue";
 import "simplebar/dist/simplebar.min.css";
 
@@ -73,13 +79,41 @@ export default {
 
   data() {
     return {
+      /**
+       * "scrollPositionValue" - scrollbar slider coordinate on the Y axis.
+       * @type {Number}
+       */
       scrollPositionValue: 0,
+      /**
+       * "clientHeightValue" - height of the scroll viewport.
+       * @type {Number}
+       */
       clientHeightValue: 0,
+      /**
+       * "scrollHeightValue" - height of the scroll area.
+       * @type {Number}
+       */
       scrollHeightValue: 0,
 
-      wholeRandomuser: [],
+      /**
+       * A complete list of all data about one user.
+       *
+       * @type {Array <Object>}
+       */
+      allRandomuser: [],
+      /**
+       * Array of users that is loaded when creating a page.
+       * Including those users, that will be uploaded in future.
+       *
+       * @type {Array <Object>}
+       */
       initUsers: [],
 
+      /**
+       * Object used to fill in a single card.
+       *
+       * @type {{name: String, mail: String, imgUrl: String}} - user data.
+       */
       dataCard: {
         name: "",
         mail: "",
@@ -89,35 +123,62 @@ export default {
   },
 
   methods: {
+    /**
+     * Generates user data to fill in a single card
+     *
+     * @async
+     * @property {Function} showRandomuser
+     * @returns {{name: String, mail: String, imgUrl: String}} - user data.
+     */
     async showRandomuser() {
       // console.log("APP -- method showRandomuser run.");
       await this.getRandomuser();
       this.parsing();
     },
 
+    /**
+     * Loads all data about one user from the server.
+     *
+     * @async
+     * @property {Function} getRandomuser - sends a request to the server to get user data.
+     * @returns {Array} - all user data
+     */
     async getRandomuser() {
       // console.log("APP -- method getRandomuser run.");
       try {
-        this.wholeRandomuser = await Randomuser.showRandomuser();
+        this.allRandomuser = await Randomuser.showRandomuser();
       } catch (error) {
         console.error(error);
       }
     },
-
+    /**
+     * Selects only the name, the E-mail and the photo of the user
+     * from all user data.
+     *
+     * @property {Function} parsing
+     * @returns {{name: String, mail: String, imgUrl: String}} - user data.
+     */
     parsing() {
       // console.log("APP -- method parsing run.");
       this.dataCard.name =
-        this.wholeRandomuser.results[0].name.title +
+        this.allRandomuser.results[0].name.title +
         ". " +
-        this.wholeRandomuser.results[0].name.first +
+        this.allRandomuser.results[0].name.first +
         " " +
-        this.wholeRandomuser.results[0].name.last;
+        this.allRandomuser.results[0].name.last;
       // console.log("APP -- name = " + this.dataCard.name);
 
-      this.dataCard.mail = this.wholeRandomuser.results[0].email;
-      this.dataCard.imgUrl = this.wholeRandomuser.results[0].picture.large;
+      this.dataCard.mail = this.allRandomuser.results[0].email;
+      this.dataCard.imgUrl = this.allRandomuser.results[0].picture.large;
     },
 
+    /**
+     * Generates a list of users for initial display on the page.
+     *
+     * @async
+     * @property {Function} initRandomusers - sends the 10 requests to the server to get data of 10 users.
+     * @returns {Array} - 10 users data.
+     */
     async initRandomusers(initUsers) {
       for (let i = 0; i < 10; i++) {
         // console.log("APP -- initRandomusers.");
@@ -132,7 +193,13 @@ export default {
         // console.log("APP -- initRandomusers - initUsers = ") + this.initUsers;
       }
     },
-
+    /**
+     * Makes a request to the server
+     * and generates data for one user to fill out a single card.
+     *
+     * @async
+     * @property {Function} addCard
+     */
     async addCard() {
       await this.getRandomuser();
       this.parsing();
@@ -142,7 +209,13 @@ export default {
         imgUrl: this.dataCard.imgUrl
       });
     },
-
+    /**
+     * Calculates the bottom position of the scroll slider
+     * and loads a new card from the server.
+     *
+     * @property {Function} onScroll - the method is started when the user scrolls.
+     * @returns {{name: String, mail: String, imgUrl: String}} - user data.
+     */
     onScroll() {
       var container = event.target;
       this.scrollPositionValue = container.scrollTop;
@@ -160,7 +233,13 @@ export default {
       // console.log("APP -- method onScroll run." + this.scrollPosition);
     }
   },
-
+  /**
+   * Launches the method when the page loads,
+   * which generates the initial list of users cards.
+   *
+   * @property {Function} created
+   * @returns {Array} - 10 users cards.
+   */
   created() {
     // console.log("APP -- created initRandomusers.");
     this.initRandomusers(this.initUsers);
