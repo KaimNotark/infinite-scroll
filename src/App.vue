@@ -32,6 +32,14 @@
               <span class="__yellow">scrollHeightValue =</span>
               {{ scrollHeightValue }}
             </p>
+            <p class="main-window__text">
+              <span class="__yellow">Delta =</span>
+              {{ delta }}
+            </p>
+            <p class="main-window__text">
+              <!-- <span class="__yellow">Delta =</span> -->
+              {{ delta }} >= {{ scrollHeightValue }}
+            </p>
           </simplebar>
         </div>
         <div class="main-window">
@@ -94,6 +102,11 @@ export default {
        * @type {Number}
        */
       scrollHeightValue: 0,
+      /**
+       * "delta" - sum of scrollPositionValue and clientHeightValue.
+       * @type {Number}
+       */
+      delta: null,
 
       /**
        * A complete list of all data about one user.
@@ -221,9 +234,10 @@ export default {
       this.scrollPositionValue = container.scrollTop;
       this.clientHeightValue = container.clientHeight;
       this.scrollHeightValue = container.scrollHeight;
+      this.delta = this.scrollPositionValue + this.clientHeightValue;
 
       if (
-        this.scrollPositionValue + this.clientHeightValue >=
+        this.scrollPositionValue + this.clientHeightValue + 5 >=
         this.scrollHeightValue
       ) {
         this.addCard();
